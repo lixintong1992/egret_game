@@ -1,0 +1,23 @@
+{
+"resources":
+	[
+		{"name": "gameOverBG",  "type": "image",		"url": "assets/gameOverBG.png"},
+		{"name": "rect",        "type": "image",		"url": "assets/rect.png"},
+		{"name": "rect2",       "type": "image",		"url": "assets/rect2.png"},		
+		{"name": "triangle",    "type": "image",		"url": "assets/triangle.png"},
+		{"name": "circle",      "type": "image",		"url": "assets/circle.png"},
+		{"name": "circle2",     "type": "image",		"url": "assets/circle2.png"},
+		{"name": "title",       "type": "image",		"url": "assets/title.png"},
+		{"name": "background",  "type": "image",		"url": "assets/background.png"},
+		{"name": "end",         "type": "image",		"url": "assets/end.png"},
+		{"name": "explain",     "type": "image",		"url": "assets/explain.png"},
+		{"name": "candy",     "type": "image",		"url": "assets/candy.png"}
+
+	],
+
+"groups":
+	[
+
+		{"name":"preload","keys":"gameOverBG,rect,rect2,triangle,circle,circle2,title,background,end,explain,candy"}
+	]
+}
