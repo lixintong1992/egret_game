@@ -1,18 +1,26 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        _super.call(this);
-        this._isDebug = false;
-        this.factor = 50;
-        this.level_num = 0; //关卡序号
-        this.world = new p2.World();
-        this.success_num = new Array(16); //level_num关卡中的所有物体（包括支撑物体）
-        this.sleep_num = new Array(16); //level_num关卡中的移动物体数
-        this.beta_gamma = 0; //手机倾斜角
-        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        var _this = _super.call(this) || this;
+        _this._isDebug = false;
+        _this.factor = 50;
+        _this.level_num = 0; //关卡序号
+        _this.world = new p2.World();
+        _this.success_num = new Array(16); //level_num关卡中的所有物体（包括支撑物体）
+        _this.sleep_num = new Array(16); //level_num关卡中的移动物体数
+        _this.beta_gamma = 0; //手机倾斜角
+        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
+        return _this;
     }
-    var d = __define,c=Main,p=c.prototype;
-    p.onAddToStage = function (event) {
+    Main.prototype.onAddToStage = function (event) {
         //设置加载进度界面
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
@@ -23,7 +31,7 @@ var Main = (function (_super) {
     /**
     * 配置文件加载完成,开始预加载preload资源组。
     */
-    p.onConfigComplete = function (event) {
+    Main.prototype.onConfigComplete = function (event) {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
@@ -32,7 +40,7 @@ var Main = (function (_super) {
     /**
     * preload资源组加载完成
     */
-    p.onResourceLoadComplete = function (event) {
+    Main.prototype.onResourceLoadComplete = function (event) {
         if (event.groupName == "preload") {
             this.stage.removeChild(this.loadingView);
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
@@ -43,7 +51,7 @@ var Main = (function (_super) {
     /**
     * preload资源组加载进度
     */
-    p.onResourceProgress = function (event) {
+    Main.prototype.onResourceProgress = function (event) {
         if (event.groupName == "preload") {
             this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
@@ -51,7 +59,7 @@ var Main = (function (_super) {
     /**
     * 创建游戏场景
     */
-    p.createGameScene = function () {
+    Main.prototype.createGameScene = function () {
         this.success_num[0] = 2;
         this.success_num[1] = 6;
         this.success_num[2] = 10;
@@ -155,46 +163,46 @@ var Main = (function (_super) {
             }
         }, this);
     };
-    p.init = function () {
+    Main.prototype.init = function () {
         this.world.clear();
         this.world.sleepMode = p2.World.BODY_SLEEPING;
         this.world.gravity = [0, -5];
         this.removeChildren();
     };
-    p.gameover = function () {
+    Main.prototype.gameover = function () {
         this._gameOverPanel = new GameOverPanel();
         this._gameOverPanel.addEventListener("restartGame", this.restartGame, this);
         this._gameOverPanel.addEventListener("backGame", this.backGame, this);
         this.addChild(this._gameOverPanel);
     };
-    p.gamebegin = function () {
+    Main.prototype.gamebegin = function () {
         this._gameStartPanel = new GameStartPanel();
         this._gameStartPanel.addEventListener("startGame", this.startGame, this);
         this._gameStartPanel.addEventListener("explainGame", this.explainGame, this);
         this.addChild(this._gameStartPanel);
     };
-    p.gameexplain = function () {
+    Main.prototype.gameexplain = function () {
         this._gameExplainPanel = new GameExplainPanel();
         this._gameExplainPanel.addEventListener("startGame", this.startGame, this);
         this.addChild(this._gameExplainPanel);
     };
-    p.restartGame = function () {
+    Main.prototype.restartGame = function () {
         this.level(this.level_num);
     };
-    p.backGame = function () {
+    Main.prototype.backGame = function () {
         this.level_num = 0;
         this.level(this.level_num);
     };
-    p.startGame = function () {
+    Main.prototype.startGame = function () {
         this.level_num = 1;
         Data.score = 1;
         this.level(1);
     };
-    p.explainGame = function () {
+    Main.prototype.explainGame = function () {
         this.level(-1);
     };
     //0为开始界面，-1为游戏介绍界面，-2为游戏结束界面
-    p.level = function (level_num) {
+    Main.prototype.level = function (level_num) {
         this.init();
         if (level_num == -2) {
             this.level_m2();
@@ -254,16 +262,16 @@ var Main = (function (_super) {
             this.level_16();
         }
     };
-    p.level_m2 = function () {
+    Main.prototype.level_m2 = function () {
         this.gameover();
     };
-    p.level_m1 = function () {
+    Main.prototype.level_m1 = function () {
         this.gameexplain();
     };
-    p.level_0 = function () {
+    Main.prototype.level_0 = function () {
         this.gamebegin();
     };
-    p.level_1 = function () {
+    Main.prototype.level_1 = function () {
         this.ground();
         this.supportertrect(1.5, 1.5, 0, 240, 100);
         this.creatrect(125, 125, 0, 50, 100);
@@ -272,7 +280,7 @@ var Main = (function (_super) {
         this.creatrect(50, 50, 0, 320, 100);
         this.creatrect(50, 50, 0, 372, 100);
     };
-    p.level_2 = function () {
+    Main.prototype.level_2 = function () {
         this.ground();
         this.supportertrect(1, 3, 0, 120, 100);
         this.supportertrect(1, 3, 0, 360, 100);
@@ -285,7 +293,7 @@ var Main = (function (_super) {
         this.creatrect(100, 100, 0, 160, 160);
         this.creatrect(100, 100, 0, 160, 270);
     };
-    p.level_3 = function () {
+    Main.prototype.level_3 = function () {
         this.ground();
         this.supportertrect(8, 1, 0, 240, 250);
         this.creattriangle(100, -45, 400, 50);
@@ -296,7 +304,7 @@ var Main = (function (_super) {
         this.creatrect(100, 100, 45, 50, 50);
         this.creatrect(100, 100, -45, 160, 50);
     };
-    p.level_4 = function () {
+    Main.prototype.level_4 = function () {
         this.ground();
         this.supportertrect(1, 1, 0, 120, 100);
         this.supportertrect(1, 1, 0, 320, 100);
@@ -311,7 +319,7 @@ var Main = (function (_super) {
         this.creatcircle(100, 380, 120);
         this.creattriangle(100, -45, 400, 250);
     };
-    p.level_5 = function () {
+    Main.prototype.level_5 = function () {
         this.ground();
         this.supportertrect(6, 1, 0, 220, 200);
         this.creattriangle(100, -45, 50, 70);
@@ -319,7 +327,7 @@ var Main = (function (_super) {
         this.creattriangle(100, -45, 250, 70);
         this.creattriangle(100, 135, 400, 50);
     };
-    p.level_6 = function () {
+    Main.prototype.level_6 = function () {
         this.ground();
         this.supportertrect(4, 1, 0, 220, 200);
         this.creatrect_candy(300, 50, 0, 200, 250);
@@ -330,7 +338,7 @@ var Main = (function (_super) {
         this.creatcircle(100, 50, 160);
         this.creatcircle(100, 160, 160);
     };
-    p.level_7 = function () {
+    Main.prototype.level_7 = function () {
         this.ground();
         this.supportertrect(6, 1, 0, 220, 200);
         this.creatcircle(95, 50, 200);
@@ -344,7 +352,7 @@ var Main = (function (_super) {
         this.creatrect(95, 95, 0, 350, 50);
         this.creattriangle(180, -45, 320, 250);
     };
-    p.level_8 = function () {
+    Main.prototype.level_8 = function () {
         this.ground();
         this.supportercircle(25, 250, 170);
         this.supportercircle(25, 65, 170);
@@ -357,7 +365,7 @@ var Main = (function (_super) {
         this.creatcircle(120, 180, 150);
         this.creatcircle(120, 310, 150);
     };
-    p.level_9 = function () {
+    Main.prototype.level_9 = function () {
         this.ground();
         this.supportercircle(30, 250, 250);
         this.supportercircle(30, 50, 250);
@@ -371,7 +379,7 @@ var Main = (function (_super) {
         this.creattriangle(150, -45, 320, 70);
         this.creattriangle(150, -45, 320, 170);
     };
-    p.level_10 = function () {
+    Main.prototype.level_10 = function () {
         this.ground();
         this.supportertrect(2, 2, 0, 250, 100);
         this.supportercircle(30, 200, 350);
@@ -385,7 +393,7 @@ var Main = (function (_super) {
         this.creatcircle(80, 360, 150);
         this.creattriangle(80, -45, 450, 50);
     };
-    p.level_11 = function () {
+    Main.prototype.level_11 = function () {
         this.ground();
         this.supportertrect(2, 1, 0, 80, 250);
         this.supportertrect(2, 1, 0, 400, 250);
@@ -400,7 +408,7 @@ var Main = (function (_super) {
         this.creatrect(100, 100, 0, 50, 50);
         this.creatrect(100, 100, 0, 160, 50);
     };
-    p.level_12 = function () {
+    Main.prototype.level_12 = function () {
         this.ground();
         this.supportertrect(3, 3.5, 55, 75, 200);
         this.supportertrect(3, 3.5, -55, 425, 200);
@@ -410,7 +418,7 @@ var Main = (function (_super) {
         this.creatcircle(100, 320, 100);
         this.creatrect(95, 80, 0, 400, 100);
     };
-    p.level_13 = function () {
+    Main.prototype.level_13 = function () {
         this.ground();
         this.supportertrect(4.5, 0.7, 12, 120, 200);
         this.supportertrect(4.5, 0.7, -12, 360, 200);
@@ -426,7 +434,7 @@ var Main = (function (_super) {
         this.creatrect(60, 60, 0, 150, 120);
         this.creattriangle(120, -45, 250, 150);
     };
-    p.level_14 = function () {
+    Main.prototype.level_14 = function () {
         this.ground();
         this.supportertrect(0.5, 0.5, 0, 120, 100);
         this.supportertrect(0.5, 0.5, 0, 360, 100);
@@ -441,7 +449,7 @@ var Main = (function (_super) {
         this.creatrect_candy(260, 30, 0, 300, 90);
         this.creatcircle(200, 100, 280);
     };
-    p.level_15 = function () {
+    Main.prototype.level_15 = function () {
         this.ground();
         this.supportercircle(25, 240, 100);
         this.supportercircle(25, 240, 50);
@@ -452,10 +460,10 @@ var Main = (function (_super) {
         this.creatrect(170, 170, 0, 80, 250);
         this.creatrect(120, 120, 0, 250, 250);
     };
-    p.level_16 = function () {
+    Main.prototype.level_16 = function () {
         this.gameoverground();
     };
-    p.ground = function () {
+    Main.prototype.ground = function () {
         var img = new egret.Bitmap();
         img.texture = RES.getRes('background');
         //        img.fillMode = egret.BitmapFillMode.REPEAT;
@@ -463,7 +471,7 @@ var Main = (function (_super) {
         img.height = this.stage.stageHeight;
         this.addChild(img);
     };
-    p.gameoverground = function () {
+    Main.prototype.gameoverground = function () {
         var img = new egret.Bitmap();
         img.texture = RES.getRes('gameOverBG');
         //        img.fillMode = egret.BitmapFillMode.REPEAT;
@@ -475,7 +483,7 @@ var Main = (function (_super) {
         img.touchEnabled = true;
         img.addEventListener(egret.TouchEvent.TOUCH_END, this.backGame, this);
     };
-    p.supportertrect = function (_width, _height, _rotation, _x, _y) {
+    Main.prototype.supportertrect = function (_width, _height, _rotation, _x, _y) {
         var supporterShape = new p2.Box({ width: _width, height: _height });
         var supporterBody = new p2.Body({ mass: 0, position: [_x / this.factor, _y / this.factor], angle: Math.PI * ((_rotation) / 180), angularVelocity: 0 });
         supporterBody.addShape(supporterShape);
@@ -488,7 +496,7 @@ var Main = (function (_super) {
         supporterBody.displays = [display];
         this.addChild(display);
     };
-    p.supportertriangle = function (_sidelenght, _rotation, _x, _y) {
+    Main.prototype.supportertriangle = function (_sidelenght, _rotation, _x, _y) {
         var center1 = new Array(0, 0);
         var mousePos_11 = new Array(0, _sidelenght / this.factor);
         var mousePos_21 = new Array(_sidelenght / this.factor, _sidelenght / this.factor);
@@ -516,7 +524,7 @@ var Main = (function (_super) {
         supporterBody.displays = [items1];
         this.addChild(items1);
     };
-    p.supportercircle = function (_radius, _x, _y) {
+    Main.prototype.supportercircle = function (_radius, _x, _y) {
         var supporterShape = new p2.Circle({ radius: ((_radius / 2) / this.factor) });
         var supporterBody = new p2.Body({ mass: 0, position: [_x / this.factor, _y / this.factor], angularVelocity: 0 });
         supporterBody.addShape(supporterShape);
@@ -531,7 +539,7 @@ var Main = (function (_super) {
         supporterBody.displays = [display];
         this.addChild(display);
     };
-    p.creattriangle = function (_sidelenght, _rotation, _x, _y) {
+    Main.prototype.creattriangle = function (_sidelenght, _rotation, _x, _y) {
         var items1 = new egret.Bitmap();
         items1.texture = RES.getRes('triangle');
         items1.width = _sidelenght;
@@ -592,7 +600,7 @@ var Main = (function (_super) {
             draggedObject1.y = e.stageY - offsetY1;
         }
     };
-    p.creatrect = function (_width, _height, _rotation, _x, _y) {
+    Main.prototype.creatrect = function (_width, _height, _rotation, _x, _y) {
         var display = this.createBitmapByName('rect');
         display.width = _width;
         display.height = _height;
@@ -641,7 +649,7 @@ var Main = (function (_super) {
             draggedObject.y = e.stageY - offsetY;
         }
     };
-    p.creatrect_candy = function (_width, _height, _rotation, _x, _y) {
+    Main.prototype.creatrect_candy = function (_width, _height, _rotation, _x, _y) {
         var display = this.createBitmapByName('candy');
         display.width = _width;
         display.height = _height;
@@ -690,7 +698,7 @@ var Main = (function (_super) {
             draggedObject.y = e.stageY - offsetY;
         }
     };
-    p.creatcircle = function (_radius, _x, _y) {
+    Main.prototype.creatcircle = function (_radius, _x, _y) {
         var display1 = this.createBitmapByName('circle');
         display1.width = _radius;
         display1.height = _radius;
@@ -738,13 +746,13 @@ var Main = (function (_super) {
             draggedObject.y = e.stageY - offsetY;
         }
     };
-    p.createBitmapByName = function (name) {
+    Main.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
         var texture = RES.getRes(name);
         result.texture = texture;
         return result;
     };
-    p.onOrientation = function (e) {
+    Main.prototype.onOrientation = function (e) {
         this.beta_gamma = Math.round(e.gamma);
         //        this.label.text =
         //            "方向: nalpha:" + e.alpha
@@ -753,5 +761,6 @@ var Main = (function (_super) {
         //        + "\n,beta_gamma:" + this.beta_gamma / 45;
     };
     return Main;
-})(egret.DisplayObjectContainer);
-egret.registerClass(Main,'Main');
+}(egret.DisplayObjectContainer));
+__reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map

@@ -1,3 +1,11 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 /**
  *游戏的结束主面板
  *
@@ -7,13 +15,13 @@
 var GameOverPanel = (function (_super) {
     __extends(GameOverPanel, _super);
     function GameOverPanel() {
-        _super.call(this);
-        this.draw();
-        this.addEventListener(egret.Event.ADDED, this.shouText, this);
+        var _this = _super.call(this) || this;
+        _this.draw();
+        _this.addEventListener(egret.Event.ADDED, _this.shouText, _this);
+        return _this;
         //    this.addEventListener(egret.Event.ADDED,this.gameoverShow,this);
     }
-    var d = __define,c=GameOverPanel,p=c.prototype;
-    p.draw = function () {
+    GameOverPanel.prototype.draw = function () {
         var w = egret.MainContext.instance.stage.stageWidth;
         var h = egret.MainContext.instance.stage.stageHeight;
         var img = new egret.Bitmap();
@@ -52,17 +60,18 @@ var GameOverPanel = (function (_super) {
         btn_back.touchEnabled = true;
         btn_back.addEventListener(egret.TouchEvent.TOUCH_END, this.backGame, this);
     };
-    p.shouText = function () {
+    GameOverPanel.prototype.shouText = function () {
         this.txt.text = ' ' + (Data.score - 1);
     };
-    p.startGame = function () {
+    GameOverPanel.prototype.startGame = function () {
         this.parent.removeChild(this);
         this.dispatchEventWith("restartGame");
     };
-    p.backGame = function () {
+    GameOverPanel.prototype.backGame = function () {
         this.parent.removeChild(this);
         this.dispatchEventWith("backGame");
     };
     return GameOverPanel;
-})(egret.Sprite);
-egret.registerClass(GameOverPanel,'GameOverPanel');
+}(egret.Sprite));
+__reflect(GameOverPanel.prototype, "GameOverPanel");
+//# sourceMappingURL=GameOverPanel.js.map

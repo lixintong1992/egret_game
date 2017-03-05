@@ -1,3 +1,11 @@
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 /**
 *游戏的开始主面板
 *
@@ -7,11 +15,11 @@
 var GameStartPanel = (function (_super) {
     __extends(GameStartPanel, _super);
     function GameStartPanel() {
-        _super.call(this);
-        this.draw();
+        var _this = _super.call(this) || this;
+        _this.draw();
+        return _this;
     }
-    var d = __define,c=GameStartPanel,p=c.prototype;
-    p.draw = function () {
+    GameStartPanel.prototype.draw = function () {
         var w = egret.MainContext.instance.stage.stageWidth;
         var h = egret.MainContext.instance.stage.stageHeight;
         var img = new egret.Bitmap();
@@ -42,14 +50,15 @@ var GameStartPanel = (function (_super) {
         btn_explain.alpha = 0;
         this.addChild(btn_explain);
     };
-    p.startGame = function () {
+    GameStartPanel.prototype.startGame = function () {
         this.parent.removeChild(this);
         this.dispatchEventWith("startGame");
     };
-    p.explainGame = function () {
+    GameStartPanel.prototype.explainGame = function () {
         this.parent.removeChild(this);
         this.dispatchEventWith("explainGame");
     };
     return GameStartPanel;
-})(egret.Sprite);
-egret.registerClass(GameStartPanel,'GameStartPanel');
+}(egret.Sprite));
+__reflect(GameStartPanel.prototype, "GameStartPanel");
+//# sourceMappingURL=GameStartPanel.js.map
